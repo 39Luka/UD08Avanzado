@@ -11,6 +11,8 @@ public class Conjunto<T> {
 
     boolean insert(T element){
 
+
+
     }
 
     boolean delete(T element){
