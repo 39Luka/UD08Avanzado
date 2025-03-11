@@ -67,12 +67,17 @@ public class Conjunto<T> {
      * Esto se hace después de eliminar un elemento.
      */
     void gestionarHuecos() {
-        int blank = buscarHuecos();  // Busca el primer hueco
-
-        // Mientras haya huecos y no se haya alcanzado el final del conjunto
-        while (blank != -1 && blank < size) {
-            moverHuecos(blank);  // Mueve los elementos hacia la izquierda
-            blank = buscarHuecos();  // Busca el siguiente hueco
+        for (int i = 0; i < TAM - 1; i++) {
+            if (array[i] == null) {  // Si encontramos un hueco
+                // Mover todos los elementos hacia la izquierda
+                for (int j = i + 1; j < TAM; j++) {
+                    if (array[j] != null) {
+                        array[i] = array[j];
+                        array[j] = null;
+                        i = j - 1;  // Actualizar el índice para seguir moviendo después del elemento movido
+                    }
+                }
+            }
         }
     }
 
@@ -81,31 +86,6 @@ public class Conjunto<T> {
      *
      * @return la posición del primer hueco, o -1 si no hay huecos
      */
-    int buscarHuecos() {
-        int pos = 0;
-        boolean found = false;
-
-        // Itera sobre el arreglo para encontrar el primer hueco
-        while (!found && (pos < TAM)) {
-            if (array[pos] == null) found = true;  // Encuentra un hueco
-            pos++;  // Avanza a la siguiente posición
-        }
-        if (!found) pos = -1;  // Si no encontró huecos, devuelve -1
-
-        return pos;  // Devuelve la posición del primer hueco
-    }
-
-    /**
-     * Mueve los elementos del conjunto hacia la izquierda para eliminar los huecos.
-     *
-     * @param blank la posición del hueco a mover
-     */
-    void moverHuecos(int blank) {
-        if (blank < size - 1) {
-            array[blank] = array[blank + 1];  // Mueve el siguiente elemento al hueco
-            array[blank + 1] = null;           // Borra el elemento que se movió
-        }
-    }
 
     /**
      * Obtiene el elemento en la posición especificada.
@@ -126,7 +106,7 @@ public class Conjunto<T> {
     int find(T element) {
         int r = -1;
         for (int i = 0; i < size; i++) {
-            if (array[i].equals(element)) {
+            if (array[i] != null && array[i].equals(element)) {  // Asegúrate de que el elemento no sea null antes de comparar
                 r = i;  // Si encuentra el elemento, guarda la posición
             }
         }
