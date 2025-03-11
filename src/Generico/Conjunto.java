@@ -7,12 +7,11 @@ package Generico;
  * @param <T> el tipo de elementos que almacena el conjunto
  */
 public class Conjunto<T> {
-    // Define el tamaño máximo del conjunto
-    private static final int TAM = 10;
-    // Inicializa un arreglo de tamaño TAM para almacenar los elementos del conjunto
-    private T[] array = (T[]) new Object[TAM];
+    private static final int TAM = 10;  // Tamaño máximo del conjunto
+    private T[] array = (T[]) new Object[TAM];  // Arreglo que almacena los elementos del conjunto
+
     // Mantiene el conteo de los elementos actuales en el conjunto
-    private int size = 0;
+    private int size = 0;  // Número de elementos en el conjunto
 
     /**
      * Inserta un elemento en el conjunto.
@@ -27,16 +26,16 @@ public class Conjunto<T> {
 
         // Itera sobre el arreglo para encontrar un espacio vacío
         while (!found && (pos < TAM)) {
-            if (array[pos] == null) found = true;
-            else pos++;
+            if (array[pos] == null) found = true;  // Encuentra espacio vacío
+            else pos++;  // Avanza a la siguiente posición
         }
 
         // Si encontró un espacio vacío, inserta el elemento
         if (found) {
             array[pos] = element;
-            size++;
+            size++;  // Aumenta el tamaño del conjunto
         }
-        return found;
+        return found;  // Devuelve true si el elemento se insertó correctamente
     }
 
     /**
@@ -52,15 +51,15 @@ public class Conjunto<T> {
 
         // Itera sobre el arreglo para encontrar el elemento
         while (!found && (pos < TAM)) {
-            if (array[pos].equals(element)) {
-                array[pos] = null;
-                found = true;
-                size--;
+            if (array[pos].equals(element)) {  // Si encuentra el elemento
+                array[pos] = null;  // Elimina el elemento
+                found = true;  // Marca que el elemento fue encontrado
+                size--;  // Disminuye el tamaño del conjunto
             }
-            pos++;
+            pos++;  // Avanza a la siguiente posición
         }
-        gestionarHuecos();  // Llama a gestionarHuecos para reorganizar el conjunto
-        return found;
+        gestionarHuecos();  // Llama a gestionarHuecos para reorganizar el conjunto después de eliminar el elemento
+        return found;  // Devuelve true si el elemento fue eliminado
     }
 
     /**
@@ -69,7 +68,9 @@ public class Conjunto<T> {
      */
     void gestionarHuecos() {
         int blank = buscarHuecos();  // Busca el primer hueco
-        while (blank != -1 && blank < size) {  // Mientras haya huecos y no se haya alcanzado el final del conjunto
+
+        // Mientras haya huecos y no se haya alcanzado el final del conjunto
+        while (blank != -1 && blank < size) {
             moverHuecos(blank);  // Mueve los elementos hacia la izquierda
             blank = buscarHuecos();  // Busca el siguiente hueco
         }
@@ -86,8 +87,8 @@ public class Conjunto<T> {
 
         // Itera sobre el arreglo para encontrar el primer hueco
         while (!found && (pos < TAM)) {
-            if (array[pos] == null) found = true;
-            pos++;
+            if (array[pos] == null) found = true;  // Encuentra un hueco
+            pos++;  // Avanza a la siguiente posición
         }
         if (!found) pos = -1;  // Si no encontró huecos, devuelve -1
 
@@ -104,5 +105,31 @@ public class Conjunto<T> {
             array[blank] = array[blank + 1];  // Mueve el siguiente elemento al hueco
             array[blank + 1] = null;           // Borra el elemento que se movió
         }
+    }
+
+    /**
+     * Obtiene el elemento en la posición especificada.
+     *
+     * @param pos la posición del elemento en el conjunto
+     * @return el elemento en la posición especificada
+     */
+    T get(int pos) {
+        return array[pos];  // Devuelve el elemento en la posición indicada
+    }
+
+    /**
+     * Busca un elemento en el conjunto y devuelve su posición.
+     *
+     * @param element el elemento a buscar
+     * @return la posición del elemento, o -1 si no se encuentra
+     */
+    int find(T element) {
+        int r = -1;
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(element)) {
+                r = i;  // Si encuentra el elemento, guarda la posición
+            }
+        }
+        return r;  // Devuelve la posición del elemento o -1 si no se encontró
     }
 }
