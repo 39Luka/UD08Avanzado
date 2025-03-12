@@ -25,7 +25,9 @@ public class Ejercicio11 {
                 (s1, s2) -> s1.compareTo(s2));
     }
 
-    public static void ejecutarTransformacionYOrdenacion(ArrayList<String> lista, Function<String, String> transformacion, Comparator<String> comparator) {
+    public static void ejecutarTransformacionYOrdenacion(ArrayList<String> lista,
+                                                         Function<String, String> transformacion,
+                                                         Comparator<String> comparator) {
         // Ordenar la lista con el Comparator y luego aplicar la transformación con la función lambda
         lista.sort(comparator);
 
